@@ -23,6 +23,7 @@ server/__pycache__/
 
 *.sqlite3
 media/
+static/
 db/
 dist/
 .env
