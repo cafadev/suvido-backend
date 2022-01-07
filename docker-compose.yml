@@ -49,7 +49,7 @@ volumes:
   static_volume:
   media_volume:
 
-networks: 
-  default: 
-    external: 
-      name: suvido-network
+# networks: 
+#   default: 
+#     external: 
+#       name: suvido-network
