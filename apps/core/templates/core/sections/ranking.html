@@ -1,0 +1,15 @@
+
+{% if ranking_items|length %}
+<section class="pt-20">
+  <h2 class="text-xl text-blue-400 text-left font-semibold">Recent downloads</h2>
+  <div class="grid grid-cols-1 text-left divide-y divide-slate-300">
+    {% for video in ranking_items %}
+    <a class="py-8 hover:text-blue-600 cursor-pointer">
+      <p class="font-bold truncate">{{ video.title }}</p>
+      <p class="text-gray-600">{{ video.url }}</p>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+  

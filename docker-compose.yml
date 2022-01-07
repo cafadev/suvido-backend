@@ -1,0 +1,55 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - suvidodb:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - 5430:5432
+    expose: 
+      - 5431
+    command: -p 5430
+
+  nginx:
+    build: ./nginx
+    ports:
+      - 9000:9000
+    depends_on:
+      - backend
+    volumes:
+      - static_volume:/usr/share/backend/static
+      - media_volume:/usr/share/backend/media
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  backend:
+    build: .
+    command: gunicorn server.wsgi:application --timeout 0 --reload --bind 0.0.0.0:9000
+    volumes:
+      - .:/usr/share/backend
+      - static_volume:/usr/share/backend/static
+      - media_volume:/usr/share/backend/media
+    depends_on:
+      - db
+    expose:
+      - 9000
+
+volumes:
+  suvidodb:
+  static_volume:
+  media_volume:
+
+networks: 
+  default: 
+    external: 
+      name: suvido-network

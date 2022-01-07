@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<title>SUVIDO - Super Video Downloader</title>
+<link rel="stylesheet" href="{% static 'suvido/css/main.css' %}">
+<script src="{% static 'suvido/js/main.js' %}"></script>
+{% comment %} <script src="{% static 'suvido/js/login.js' %}"></script> {% endcomment %}
+{% endblock head %}
+
+{% block body %}
+<div id="main" class="bg-indigo-50">
+  <div x-data="login" class="hidden 2xl:block">
+    {% include 'core/sections/header.html' %}
+
+    <div id="login-modal">
+      <template x-if="dialog">
+        {% include 'core/sections/login.html' %}
+      </template>
+    </div>
+  </div>
+  {% include 'core/sections/circles.html' %}
+  <main x-data="app" class="container mx-auto text-center max-w-4xl px-6">
+    {% include 'core/sections/search.html' %}
+    {% include 'core/sections/video.html' %}
+    {% include 'core/sections/downloading.html' %}
+    {% include 'core/sections/ranking.html' %}
+  </main>
+</div>
+{% endblock body %}
+
+{% block scripts %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+{% endblock scripts %}

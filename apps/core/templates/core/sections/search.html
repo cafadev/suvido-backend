@@ -1,0 +1,13 @@
+<div class="block 2xl:hidden">
+  {% include 'core/sections/header.html' %}
+</div>
+<h1 class="text-center text-6xl font-semibold text-white">SUVIDO</h1>
+<section class="flex justify-center mb-20">
+  <input
+    x-model="video.url"
+    @keyup.enter="searchVideo"
+    class=" w-full p-5 m-3 rounded-full outline-none focus:border focus:border-green-400 shadow-lg shadow-green-400 text-2xl"
+    type="text"
+    placeholder="URL del video"
+  >
+</section>
