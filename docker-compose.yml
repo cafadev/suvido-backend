@@ -13,7 +13,7 @@ services:
     ports:
       - 5430:5432
     expose: 
-      - 5431
+      - 5430
     command: -p 5430
 
   nginx:
