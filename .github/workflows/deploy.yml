@@ -12,10 +12,10 @@ jobs:
     steps:
     - name: 🚚 Get latest code
       uses: actions/checkout@v2
-    
-    - name: Copying .env file for production
-      run: echo ${{ secrets.PRODUCTION_ENV }} > .env
 
-    # - name: Build docker
-    #   run: docker-compose up --build -d
+    - name: Build docker
+      run: docker-compose up --build -d
+
+    - name: Create user
+      run: docker-compose run backend python manage.py createadminuser ${{ secrets.ADMIN_USER }}
 

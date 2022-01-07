@@ -19,7 +19,7 @@ services:
   nginx:
     build: ./nginx
     ports:
-      - 9000:9000
+      - 9001:9001
     depends_on:
       - backend
     volumes:
@@ -30,11 +30,11 @@ services:
     image: adminer
     restart: always
     ports:
-      - 8080:8080
+      - 8081:8080
 
   backend:
     build: .
-    command: gunicorn server.wsgi:application --timeout 0 --reload --bind 0.0.0.0:9000
+    command: gunicorn server.wsgi:application --timeout 0 --reload --bind 0.0.0.0:9001
     volumes:
       - .:/usr/share/backend
       - static_volume:/usr/share/backend/static
@@ -42,7 +42,7 @@ services:
     depends_on:
       - db
     expose:
-      - 9000
+      - 9001
 
 volumes:
   suvidodb:
