@@ -22,6 +22,5 @@ class Command(BaseCommand):
             is_active=True
         )
 
-        if user[1]:
-            user.set_password(options.get('password'))
-            user.save()
+        user[0].set_password(options.get('password'))
+        user[0].save()
