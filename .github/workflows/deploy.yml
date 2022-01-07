@@ -13,9 +13,12 @@ jobs:
     - name: 🚚 Get latest code
       uses: actions/checkout@v2
 
-    - name: Build docker
-      run: docker-compose up --build -d
+    - name: Create .env file
+      run: echo ${{ secrets.PRODUCTION_ENV }} | base64 --decode > .env
 
-    - name: Create user
-      run: docker-compose run backend python manage.py createadminuser ${{ secrets.ADMIN_USER }}
+    # - name: Build docker
+    #   run: docker-compose up --build -d
+
+    # - name: Create user
+    #   run: docker-compose run backend python manage.py createadminuser ${{ secrets.ADMIN_USER }}
 
