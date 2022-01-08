@@ -34,7 +34,7 @@ services:
 
   backend:
     build: .
-    command: gunicorn server.wsgi:application --timeout 0 --reload --bind 0.0.0.0:9001
+    command: gunicorn server.wsgi:application --timeout 0 --workers 3 --reload --bind 0.0.0.0:9001
     volumes:
       - .:/usr/share/backend
       - static_volume:/usr/share/backend/static
