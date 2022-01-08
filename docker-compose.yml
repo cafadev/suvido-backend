@@ -19,7 +19,7 @@ services:
   nginx:
     build: ./nginx
     ports:
-      - 9001:9001
+      - 9002:9002
     depends_on:
       - backend
     volumes:
@@ -35,6 +35,8 @@ services:
   backend:
     build: .
     command: gunicorn server.wsgi:application --timeout 0 --workers 3 --reload --bind 0.0.0.0:9001
+    ports:
+      - 9001:9001
     volumes:
       - .:/usr/share/backend
       - static_volume:/usr/share/backend/static
