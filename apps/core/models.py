@@ -7,7 +7,7 @@ User = get_user_model()
 class Video(models.Model):
 
     title = models.CharField(max_length=255)
-    url = models.URLField()
+    url = models.TextField()
     downloaded_by_users = models.ManyToManyField(User)
     thumbnail = models.ImageField(upload_to='thumbnails/', null=True)
     download_times = models.PositiveIntegerField(default=0)

@@ -51,9 +51,12 @@ class VideoAPIView(views.APIView):
 
             self.video = video
     
-    def extract_formats(self):
+    def extract_formats(self, filter_formats=True):
         formats = []
         quality_formats = ['360p', '480p', '720p', '1080p']
+
+        if not filter_formats:
+            return self.video.get('formats')
 
         for _format in self.video.get('formats', []):
             quality_format = _format.get('format_note')
@@ -88,7 +91,7 @@ class VideoAPIView(views.APIView):
             title = re.sub("[^0-9a-zA-Z]+", "_", self.video.get('title'))
             title = title.replace(' ', '_')
             
-            ext = url.split('.')[-1]
+            ext = url.split('.')[-1].split('%')[0].split('?')[0]
 
             filename = f'{title}.{ext}'
             save_dir = os.path.join('media', 'thumbnails')
@@ -107,8 +110,9 @@ class VideoAPIView(views.APIView):
     def stream_video_download(self, url):
         with requests.get(url, stream=True) as response:
             response.raise_for_status()
-            for chunk in response.iter_content(chunk_size=8192): 
+            for chunk in response.iter_content(chunk_size=10000):
                 yield chunk
+            # yield response.content
 
     def get_video_dict(self, url):
         formats = self.extract_formats()
