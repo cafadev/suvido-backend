@@ -5,8 +5,8 @@ from server import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('apps.core.urls')),
-    path('api/', include('apps.users.urls')),
+    path('api/videos/', include('apps.core.urls')),
+    path('api/users/', include('apps.users.urls')),
     path('api/auth/', include('rest_framework_social_oauth2.urls'))
 ]
 

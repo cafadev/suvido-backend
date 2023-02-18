@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
-from . import models
+from ..services import VideoService
 
 
 class VideoSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = models.Video
+        model = VideoService.model
         fields = '__all__'
 

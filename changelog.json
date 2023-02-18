@@ -1,0 +1,35 @@
+{
+    "categories": [
+        {
+            "title": "## 🚀 Features",
+            "labels": [
+                "feature",
+                "enhancement",
+                "feat"
+            ]
+        },
+        {
+            "title": "## 🐛 Fixes",
+            "labels": [
+                "fix",
+                "bug"
+            ]
+        },
+        {
+            "title": "## 🧪 Tests",
+            "labels": [
+                "test"
+            ]
+        },
+        {
+            "title": "## 👷 Chore",
+            "labels": [
+                "task",
+                "chore"
+            ]
+        }
+    ],
+    "sort": "ASC",
+    "template": "${{CHANGELOG}}\n ${{IGNORED}}",
+    "empty_template": "- no changes"
+}

@@ -1,9 +1,9 @@
 from django.urls import path
-from . import views
+from .apis import rest
 
 
 urlpatterns = [
-    path('api/videos/me/', views.DownloadedVideoListAPIView.as_view()),
-    path('api/videos/', views.VideoAPIView.as_view()),
-    path('api/ranking/', views.VideoRankingListAPIView.as_view())
+    path('', rest.VideoAPI.as_view()),
+    path('me/', rest.DownloadedVideoAPI.as_view()),
+    path('ranking/', rest.RankAPI.as_view())
 ]

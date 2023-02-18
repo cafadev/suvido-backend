@@ -2,12 +2,12 @@ from rest_framework.routers import SimpleRouter
 
 from django.urls import path
 
-from . import views
+from . import apis
 
 router = SimpleRouter()
-router.register('users', views.UserViewSet)
+router.register('', apis.UserAPI)
 
 urlpatterns = router.urls + [
-    path('users/me/', views.UserViewSet.as_view({'get': 'retrieve'})),
+    path('me/', apis.UserAPI.as_view({'get': 'retrieve'})),
 ]
 

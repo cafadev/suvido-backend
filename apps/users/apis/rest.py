@@ -2,13 +2,13 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework import status
 
-from apps.users.apis import serializers
+from .serializers import UserSerializer
 from apps.users import models
 
 
-class UserViewSet(ModelViewSet):
+class UserAPI(ModelViewSet):
 
-    serializer_class = serializers.UserSerializer
+    serializer_class = UserSerializer
     queryset = models.User.objects.all()
 
     def retrieve(self, request, *args, **kwargs):

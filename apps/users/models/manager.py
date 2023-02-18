@@ -1,10 +1,6 @@
-from django.db import models
+from django.contrib.auth.models import BaseUserManager
 
-from django.utils import timezone
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
-
-
-class CustomAccountManager(BaseUserManager):
+class UserManager(BaseUserManager):
 
     def create_superuser(self, email, first_name, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
@@ -32,31 +28,3 @@ class CustomAccountManager(BaseUserManager):
         user.set_password(password)
         user.save()
         return user
-
-
-class User(AbstractBaseUser, PermissionsMixin):
-
-    username = None
-    start_date = None
-    date_joined = None
-
-    email = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=150, blank=True)
-    last_name = models.CharField(max_length=150, blank=True)
-
-    image = models.ImageField(upload_to='profiles', null=True)
-
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    objects = CustomAccountManager()
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
-
-    def __str__(self):
-        return self.email
-

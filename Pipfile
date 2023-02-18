@@ -1,0 +1,28 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "==3.2"
+django-cors-headers = "*"
+django-filter = "*"
+djangorestframework = "*"
+pillow = "*"
+psycopg2 = "*"
+gunicorn = "*"
+munch = "*"
+python-decouple = "*"
+django-rest-framework-social-oauth2 = "==1.1.0"
+django-oauth-toolkit = "==1.5.0"
+youtube-dl = "*"
+
+[dev-packages]
+# black = "*"
+# mypy = "*"
+# pylint = "*"
+# pylint-django = "*"
+ruff = "*"
+
+[requires]
+python_version = "3.10"

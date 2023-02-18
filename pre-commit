@@ -1,0 +1,31 @@
+#!/bin/bash
+
+current_branch=`git rev-parse --abbrev-ref HEAD`
+if [[ $current_branch =~ master|main ]]; then
+    message="\n\nPlease don't commit directly to $current_branch."
+    echo -e "\033[1;31mERROR: $message\033[0m";
+    exit 1
+fi
+
+repo_dir=`git rev-parse --show-toplevel`
+
+message="\n\n[Policy] Checking code in $repo_dir with black..."
+# echo with color: https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
+echo -e "\033[1;34mInfo: $message\033[0m"
+
+if [ -f /.dockerenv ]; then
+    black -t py38 --check $repo_dir
+else
+    docker-compose run -e PRE_COMMIT="PRE_COMMIT" server exec /home/$user/.venv/bin/black -t py38 --check $repo_dir
+fi
+
+
+if [ $? -eq 1 ]; then
+    message="\n\n[Policy] Black check failed, please use black to format your code."
+    echo -e "\033[1;31mERROR: $message\033[0m";
+    exit 1
+else
+    message="\n\n[Policy] Passed black checking."
+    echo -e "\033[1;32mOK: $message\033[0m";
+    exit 0
+fi

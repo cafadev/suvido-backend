@@ -1,45 +1,38 @@
-FROM python:3.8.11
+FROM python:3.10
 
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && apt-get install -y nodejs && npm install -g nodemon
+ARG UID=1000
+ARG GID=1000
+ARG DJANGO_USER_NAME
+ARG DJANGO_USER_EMAIL
+ARG DJANGO_USER_PASSWORD
+ARG ENV
 
-ARG user=backend
-ARG uid=1000
-ARG gid=1000
-
-RUN addgroup --gid $gid ${user}
-RUN adduser --disabled-password --gecos '' --uid $uid --gid $gid ${user}
-
-ENV VIRTUAL_ENV=/opt/venv
-RUN python3 -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-
-RUN mkdir -p /usr/share/${user}
-RUN chown -R ${user}:${user} /usr/share/${user}
-RUN chown -R ${user}:${user} /opt/venv
-
-USER ${user}
-
-WORKDIR /usr/share/${user}
-
-RUN mkdir -p static
-RUN mkdir -p media
-
+ENV CONTAINER_USER=server
+ENV PROJECT_DIR=/home/${CONTAINER_USER}/${CONTAINER_USER}
+ENV PATH="${PROJECT_DIR}/.venv/bin:$PATH:/home/${CONTAINER_USER}/.local/bin"
+ENV PYTHONPATH="${PROJECT_DIR}/.venv/bin:$PYTHONPATH"
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED=1
+ENV PIPENV_VENV_IN_PROJECT=1
+ENV PIPENV_VIRTUALENV_COPIES=true
+ENV PIPENV_DEFAULT_PYTHON_VERSION=3.11
 
-COPY requirements .
+RUN addgroup --gid ${GID} ${CONTAINER_USER}
+RUN adduser --disabled-password --gecos '' --uid $UID --gid ${GID} ${CONTAINER_USER}
 
-RUN $VIRTUAL_ENV/bin/python3 -m pip install --upgrade pip
-RUN $VIRTUAL_ENV/bin/python3 -m pip install -r requirements
+RUN mkdir -p ${PROJECT_DIR} ${PROJECT_DIR}/.venv
+RUN chown -R ${CONTAINER_USER}:${CONTAINER_USER} ${PROJECT_DIR} ${PROJECT_DIR}/.venv
 
-COPY . .
+WORKDIR ${PROJECT_DIR}
 
-USER root
+USER ${CONTAINER_USER}
 
-RUN chown -R ${user}:${user} /usr/share/${user}/static
-RUN chown -R ${user}:${user} /usr/share/${user}/media
+COPY --chown=${CONTAINER_USER}:${CONTAINER_USER} Pipfile* ./
+RUN pip install --upgrade pip && pip install --user pipenv
 
-USER ${user}
-RUN sed -i 's/\r$//g' ./entrypoint.sh
+COPY --chown=${CONTAINER_USER}:${CONTAINER_USER} setup.sh .
+RUN chmod +x ./setup.sh
 
-ENTRYPOINT ["./entrypoint.sh"]
+COPY --chown=${CONTAINER_USER}:${CONTAINER_USER} . .
+
+ENTRYPOINT ./setup.sh

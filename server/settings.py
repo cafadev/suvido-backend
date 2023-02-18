@@ -36,10 +36,8 @@ INSTALLED_APPS = [
     'social_django',
     'rest_framework_social_oauth2',
 
-    'tools.drf_generators',
-
-    'apps.core',
     'apps.users',
+    'apps.core',
 ]
 
 MIDDLEWARE = [
@@ -78,9 +76,9 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': config('DATABASE_ENGINE', default='django.db.backends.sqlite3'),
-        'NAME': config('POSTGRES_DB', default='db.sqlite3'),
-        'USER': config('POSTGRES_USER', default=''),
-        'PASSWORD': config('POSTGRES_PASSWORD', default=''),
+        'NAME': config('DATABASE_NAME', default='db.sqlite3'),
+        'USER': config('DATABASE_USER', default=''),
+        'PASSWORD': config('DATABASE_PASSWORD', default=''),
         'HOST': config('DATABASE_HOST', default='localhost'),
         'PORT': config('DATABASE_PORT', default=''),
     }
@@ -131,7 +129,7 @@ SITE_ID = 1
 CORS_ALLOW_ALL_ORIGINS = DEBUG
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', cast=lambda v: [s.strip() for s in v.split(',')])
 
-LANGUAGE_CODE = 'es-hn'
+LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'America/Tegucigalpa'
 USE_I18N = True
 USE_L10N = True
