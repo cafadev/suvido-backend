@@ -28,7 +28,7 @@ WORKDIR ${PROJECT_DIR}
 USER ${CONTAINER_USER}
 
 COPY --chown=${CONTAINER_USER}:${CONTAINER_USER} Pipfile* ./
-RUN pip install --upgrade pip && pip install --user pipenv
+RUN pip install --upgrade pip && pip install --user pipenv && pipenv install
 
 COPY --chown=${CONTAINER_USER}:${CONTAINER_USER} setup.sh .
 RUN chmod +x ./setup.sh

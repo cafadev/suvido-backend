@@ -27,7 +27,6 @@ if [[ $ENV == "development" ]]; then
     # Keep running the container
     tail -f /dev/null
 else
-    pipenv install
     export_venv
     django_access
     # python manage.py collectstatic --no-input
