@@ -13,12 +13,7 @@ message="\n\n[Policy] Checking code in $repo_dir with black..."
 # echo with color: https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
 echo -e "\033[1;34mInfo: $message\033[0m"
 
-if [ -f /.dockerenv ]; then
-    black -t py38 --check $repo_dir
-else
-    docker-compose run -e PRE_COMMIT="PRE_COMMIT" server exec /home/$user/.venv/bin/black -t py38 --check $repo_dir
-fi
-
+black -t py38 --check $repo_dir
 
 if [ $? -eq 1 ]; then
     message="\n\n[Policy] Black check failed, please use black to format your code."

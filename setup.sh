@@ -12,7 +12,7 @@ export_venv() {
 django_access() {
     # Setup database, create admin user and enable github auth
     python manage.py migrate --no-input
-    python manage.py createfirstadmin
+    # python manage.py createfirstadmin
 }
 
 if [[ $ENV == "development" ]]; then
@@ -30,8 +30,9 @@ else
     pipenv install
     export_venv
     django_access
-    python manage.py collectstatic --no-input
+    # python manage.py collectstatic --no-input
     
+    echo "Activating Gunicorn"
     # Start Daphne server
     gunicorn server.wsgi:application --bind 0.0.0.0:8080 --workers 4 --timeout 0 --max-requests 1000 --max-requests-jitter 50 --preload
 fi
